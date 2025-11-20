@@ -1,16 +1,8 @@
-# labtwo
+# Laboratory Exercise 1: Food Recipes
 
-A new Flutter project.
+A simple Flutter app for showing food recipes usign an api from TheMealDB
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+**Author:** Damjan Mitrovski 222022
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
