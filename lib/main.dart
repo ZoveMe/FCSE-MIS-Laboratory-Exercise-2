@@ -1,75 +1,97 @@
 import 'package:flutter/material.dart';
 import 'screens/category_list_screen.dart';
+import 'screens/favorites_screen.dart';
+import 'services/firebase_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(MyApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseService.init();
+
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  static final _customColor = Color(0xFF3F5EFB);
+
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+
+  final List<Widget> screens = [
+    CategoryListScreen(),
+    FavoritesScreen(),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("🔥 Foreground Notification Received!");
+      print("Title: ${message.notification?.title}");
+      print("Body: ${message.notification?.body}");
+
+
+      if (mounted && message.notification != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              message.notification!.title ??
+                  "New message from Recipe of the Day",
+            ),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    });
+
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print("📩 User opened the app through a notification!");
+      print("Title: ${message.notification?.title}");
+      print("Body: ${message.notification?.body}");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Recipe Explorer',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: _customColor,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: _customColor,
-          brightness: Brightness.light,
-        ),
-        scaffoldBackgroundColor: Colors.transparent,
-        cardColor: Colors.white,
-        appBarTheme: AppBarTheme(
-          backgroundColor: _customColor,
-          foregroundColor: Colors.white,
-          elevation: 2,
-          centerTitle: true,
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        textTheme: ThemeData.light().textTheme.copyWith(
-          titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          bodyMedium: TextStyle(fontSize: 16),
-          bodySmall: TextStyle(color: Colors.grey[700]),
-        ),
-        useMaterial3: true,
-      ),
-      home: GradientScaffold(child: CategoryListScreen()),
-    );
-  }
-}
-
-class GradientScaffold extends StatelessWidget {
-  final Widget child;
-
-  const GradientScaffold({Key? key, required this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xAA3F5EFB),
-                Color(0xAAF7797D),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+      home: Scaffold(
+        body: screens[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Categories',
             ),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              label: 'Favorite',
+            ),
+          ],
         ),
-        child,
-      ],
+      ),
     );
   }
 }

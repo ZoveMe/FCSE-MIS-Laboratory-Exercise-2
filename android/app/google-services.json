@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "354871607864",
+    "project_id": "lab3-mealsdb",
+    "storage_bucket": "lab3-mealsdb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354871607864:android:010954e6ee5302079b1ccd",
+        "android_client_info": {
+          "package_name": "com.example.labtwo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYs5yd66It31G-HwUDC-jiJBITSQUFEeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
