@@ -57,9 +57,9 @@ class _MealsByCategoryScreenState extends State<MealsByCategoryScreen> {
         _filtered = _meals;
       });
     } else {
-      // search via API or local filter
+     
       _apiService.searchMeals(query).then((results) {
-        // filter only those in this category (if that is relevant)
+        
         final filteredResults = results.where((m) => m.strMeal.isNotEmpty).toList();
         setState(() {
           _filtered = filteredResults;
