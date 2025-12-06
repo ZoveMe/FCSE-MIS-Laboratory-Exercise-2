@@ -60,7 +60,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // important with gradient
+      backgroundColor: Colors.transparent, 
       appBar: AppBar(
         title: Text(
           _meal?.strMeal ?? 'Loading...',
@@ -93,7 +93,7 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // IMAGE
+              
               ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.network(_meal!.strMealThumb),
